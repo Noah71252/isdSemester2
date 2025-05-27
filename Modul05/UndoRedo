@@ -1,0 +1,55 @@
+package com.company;
+
+import java.util.ListIterator;
+import java.util.Stack;
+
+public class UndoRedo<E> {
+    private Stack undoStack;
+    private Stack redoStack;
+    // post: constructs an empty UndoRedoStack
+    public UndoRedo2() {
+    undoStack = new Stack();
+    redoStack = new Stack();
+    }
+   
+    public void tambahData(E value){
+        undoStack.push(value);
+        redoStack.clear();
+        System.out.println("Data " + value +" ditambahkan");
+        }
+    public boolean canUndo() {
+        return !undoStack.isEmpty();
+    }
+    public void undo(){
+        if (!canUndo()) {
+            System.out.println("List undo kosong");
+        } else{
+            E value = (E) undoStack.pop();
+            redoStack.push(value);
+            System.out.println("Batal melakukan operasi pada " + value);
+        }
+    }
+
+    public boolean canRedo() {
+        return !redoStack.isEmpty();
+    }
+
+    public void redo() {
+        if (!canRedo()) {
+            System.out.println("List redo kosong");
+        }
+    }else {
+        E value = (E) redoStack.pop();
+        undoStack.push(value);
+        System.out.println("Operasi pada " + value + " direstore");
+    }
+}
+
+public void viewListUndo() {
+    System.out.println("List undo: ");
+    ListIterator iterator = undoStack.listIterator(undoStack.size());
+    while (iterator.hasPrevious()){
+        Object value = iterator.previous();
+        System.out.println(value);
+    }
+}      
